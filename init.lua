@@ -91,7 +91,7 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 -- Set to true if you have a Nerd Font installed
-vim.g.have_nerd_font = false
+vim.g.have_nerd_font = true
 
 -- [[ Setting options ]]
 -- See `:help vim.opt`
@@ -204,6 +204,27 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
+-- fmst configs
+vim.keymap.set('i', 'jk', '<ESC>', { desc = 'exit' })
+vim.keymap.set('i', 'kj', '<ESC>', { desc = 'exit' })
+vim.keymap.set('v', '<', '<gv', { desc = 'move line in visual mode' })
+vim.keymap.set('v', '>', '>gv', { desc = 'move line in visual mode' })
+
+-- original from ThePrimeagen
+-- move by blocks
+vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv")
+vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
+
+vim.keymap.set('n', 'J', 'mzJ`z')
+
+-- half page jump but cursor in the middle
+vim.keymap.set('n', '<C-d>', '<C-d>zz')
+vim.keymap.set('n', '<C-u>', '<C-u>zz')
+
+-- search in the middle
+vim.keymap.set('n', 'n', 'nzzzv')
+vim.keymap.set('n', 'N', 'Nzzzv')
+
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
@@ -273,6 +294,7 @@ require('lazy').setup({
   -- after the plugin has been loaded:
   --  config = function() ... end
 
+  -- whichkey disabled
   { -- Useful plugin to show you pending keybinds.
     'folke/which-key.nvim',
     event = 'VimEnter', -- Sets the loading event to 'VimEnter'
@@ -791,7 +813,7 @@ require('lazy').setup({
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
     opts = {
-      ensure_installed = { 'bash', 'c', 'html', 'lua', 'luadoc', 'markdown', 'vim', 'vimdoc' },
+      ensure_installed = { 'bash', 'c', 'cpp', 'zig', 'lua', 'luadoc', 'markdown', 'vim', 'vimdoc', 'python' },
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {
@@ -837,6 +859,36 @@ require('lazy').setup({
   --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
   --    For additional information, see `:help lazy.nvim-lazy.nvim-structuring-your-plugins`
   -- { import = 'custom.plugins' },
+
+  -- my packages
+  {
+    'lalitmee/browse.nvim',
+    dependencies = { 'nvim-telescope/telescope.nvim' },
+    config = function()
+      local bookmarks = {
+        ['github'] = 'https://github.com/halyD',
+        ['nvim repo'] = 'https://github.com/halyD/kickstart.nvim',
+        ['portal'] = 'https://portal.nycu.edu.tw/#/',
+        ['drive'] = 'https://drive.google.com/drive/u/0/my-drive',
+        ['youtube'] = 'https://www.youtube.com',
+        ['hackmd'] = 'https://hackmd.io',
+      }
+
+      vim.keymap.set('n', '<leader>b', function()
+        require('browse').browse { bookmarks = bookmarks }
+      end)
+    end,
+  },
+  {
+    'mbbill/undotree',
+    config = function()
+      vim.keymap.set('n', '<leader>u', vim.cmd.UndotreeToggle)
+    end,
+  },
+  -- harpoon
+  -- zen-mode
+  -- flash / leap
+  -- whichkey (optional)
 }, {
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the
