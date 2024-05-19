@@ -205,6 +205,13 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 })
 
 -- fmst configs
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.autoindent = true
+vim.opt.smarttab = true
+vim.opt.wrap = true
+vim.expandtab = true
+
 vim.keymap.set('i', 'jk', '<ESC>', { desc = 'exit' })
 vim.keymap.set('i', 'kj', '<ESC>', { desc = 'exit' })
 vim.keymap.set('v', '<', '<gv', { desc = 'move line in visual mode' })
@@ -867,11 +874,11 @@ require('lazy').setup({
     config = function()
       local bookmarks = {
         ['github'] = 'https://github.com/halyD',
-        ['nvim repo'] = 'https://github.com/halyD/kickstart.nvim',
+        ['nvim_repo'] = 'https://github.com/halyD/kickstart.nvim',
         ['portal'] = 'https://portal.nycu.edu.tw/#/',
         ['drive'] = 'https://drive.google.com/drive/u/0/my-drive',
-        ['youtube'] = 'https://www.youtube.com',
         ['hackmd'] = 'https://hackmd.io',
+        ['repo_search'] = 'https://github.com/search?q=%s&type=repositories',
       }
 
       vim.keymap.set('n', '<leader>b', function()
@@ -885,10 +892,8 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>u', vim.cmd.UndotreeToggle)
     end,
   },
-  -- harpoon
-  -- zen-mode
-  -- flash / leap
-  -- whichkey (optional)
+  -- harpoon / oil : telescope would be fine
+  -- flash / leap : conflicting keymappings with mini.surround
 }, {
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the
